@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Conversion tests Unicode-LaTeX</title>
+    <meta charset="utf-8" />
+    
+
+    <!-- Using MathJax, with the delimiters $ -->
+    <!-- Conflict with pygments for the .mo and .mi colors --> 
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+      "HTML-CSS": {
+      styles: {
+      ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+      },
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']],processEscapes: true}
+      });
+    </script>
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+  </head>
+
+  <body id="index" class="home">
+      
+    
+    <h1>Tests of Conversion between Unicode and $\LaTeX$</h1>
+
+ 
+    <p> Small greek αβγδεζηθικλμνξπρστυφχψω: $αβγδεζηθικλμνξπρστυφχψω$ </p> 
+    <p> Capitals greek ΓΔΘΛΞΠΣΦΨΩ: $ΓΔΘΛΞΠΣΦΨΩ$ </p>
+    <p> Variants greek ςϑϒϕϖϰϵϱ: $ςϑϒϕϖϰϵϱ$ </p>
+
+
+    <p> Useful symbols †‡ℓ∂∅∇∫∞: $†‡ℓ∂∅∇∫∞$ </p>
+
+
+    <p> Double-struck ℂℍℕℙℚℝℤ𝔼𝕂𝕊𝕋𝕌𝟙: $ℂℍℕℙℚℝℤ𝔼𝕂𝕊𝕋𝕌𝟙$, \mathbbm{1} is not recognized by MathJax. </p>
+
+    <p> Quantifiers ∀∃∄: $∀∃∄$ </p>
+
+    <p> Relations ∈∉∋∌⇐⇒⇔≤≥≪≫⩽⩾≠≈≡≢⊂⊃: $∈∉∋∌⇐⇒⇔≤≥≪≫⩽⩾≠≈≡≢⊂⊃$, \nequiv not recognized by MathJax. </p>
+
+    <p> Conflict with \perp for the specs of Unicode : $\LaTeX$ produces U22A5 (downtack) and not U27C2 (perpendicular). So we take U22A5 ⊥:$⊥$ </p>
+
+    <p> Operations ∩∪∧∨×÷√⊕⊗⊛⨁⨂∘·: $∩∪∧∨×÷√⊕⊗⊛⨁⨂∘·$ </p>
+
+    <p> Modifiers ¬±∓: $¬±∓$ </p>
+
+    <p> Arrows ←↑→↓↦: $←↑→↓↦$ </p>
+      
+    <p> Delimiters ⟦⟧⟨⟩: $⟦⟧⟨⟩$, \llbracket and \rrbracket not recognized by MathJax. </p>
+    <p> Conflict with \Vert (or \|) for the specs of Unicode : $\LaTeX$ produces  U2225 (parallel to) and not U2016 (double vertical line). So we take U2225 ∥:$∥$ </p>
+
+    <p> Dots …⋮⋯⋰⋱: $…⋮⋯⋰⋱$, \iddots not recognized by MathJax. </p>
+
+    <p> Typography (french) «»: $«»$, \og and \fg{} not recognized by MathJax. </p>
+
+    <h2> Bug tests. </h2>
+    <p> $√{x+5}$ and $\sqrt{x+5}$.</p>
+    <p> $\left⟨\dfrac23\right⟩$ and $\left\langle\dfrac23\right\rangle$. Same thing with $∥$. </p>
+    
+  </body>
+</html>
