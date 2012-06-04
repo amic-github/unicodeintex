@@ -1,0 +1,155 @@
+#!/bin/bash
+
+#######################################################################
+#                                                                     #
+#  This program is free software. It comes without any warranty, to   #
+#  the extent permitted by applicable law. You can redistribute it    #
+#  and/or modify it under the terms of the Do What The Fuck You Want  #
+#  To Public License, Version 2, as published by Sam Hocevar. See     #
+#  http://sam.zoy.org/wtfpl/COPYING for more details.		      #
+#                                                                     #
+#                   Amic Frouvelle -- 2011-15-01                      #
+#                                                                     #
+#######################################################################
+
+
+# This script generates two scripts for converting reduced LaTeX
+# (e.g. with Unicode characters) to standard LaTeX and vice versa
+# 
+# The table of correspondance is the file latexconversion.conf
+# It consists in lines of the form
+# u;\standardcommand    where u is u unicode character
+#                       to be replaced by the command \standardcommand
+# and lines of the form
+# \shortcommand;\standardcommand
+# where standardcommand can be combined, e.g. \mathrm d or \mathrm{Id}, but
+# in any case starting with a \ and without any semicolon in its expression.
+# Any line without a semicolon is considered as a comment, and the first
+# line should be "# Configuration file for genscripts-latexconversion."
+#
+# Examples of unicode characters: σ ϔ
+# Examples of commands: \d \Id \mathrm d \mathrm{Id} \sigma \ddot\Upsilon
+#
+# The scripts produced are reduced2standard and standard2reduced
+
+# Careful: UTF8 encoding here !
+#
+# Two cases when replacing something by a command
+# Either the command is finishing by \abc and we must check if the following
+# char is a letter, in that case we add a space
+# Or there is something different from [a…zA…Z] after the last \
+# and in that case we can replace it directly without trouble
+#
+# When searching a command in the text
+# First of all it must start after a even number of backslashes
+# Then three cases
+# Either the command is finishing by \abc and we must ensure
+# the following char is not a letter
+# Or there is something different from [a…zA…Z] after the last \
+# and in that case we search it directly without trouble
+#
+# A command (strict, of the form \blabla) LaTeX has the form
+# [begining of line or end of word \> or char other than backslash],
+# [even number of backslashes],
+# \,[characters a…zA…Z],
+# [end of word \> or [0-9_] ]
+#
+# A combined command LaTeX or an escaped character (e.g. \| \{… ) has the form
+# [begining of line or end of word \> or char other than backslash],
+# [even number of backslashes],
+# \[command, including at least one char other than a…zA…Z]
+#
+# So the command
+
+# Exceptions : 
+
+# -------  Direct conversion ---------
+# Line 1
+# Make it a script sed, removing the first line, and changing all \ by \\
+# Line 2
+# \([^\]) considered as the unicode character u in the u;thecommand line
+# \(.*\\[a-zA-Z]\+\) anything that is a command finishing in the form \blabla,
+# the sed instruction to treat u should then be the two following instructions
+# s/u\([a-zA-Z]\)/thecommand \1/g
+#                         (we add a space whenever u is followed by a letter)
+# s/u/thecommand/g
+#         (in other cases, u has not been replaced, so we replace it directly)
+# Line 3
+# for other things than a command finishing in the form \blabla,
+# we just write s/u/thecommand/g
+# Line 4
+# \(.*\\[a-zA-Z]\+\) anything that is a command finishing in the form \blabla,
+# to be replaced by any kind of command
+# considered as thecommand in the thecommand;anycommand line
+# the sed instruction to treat thecommand is the following instruction
+# s/\(\(^\|[^\]\|\>\)\(\\\\\)*\)
+#        (begining or other than \ or end of word, even number of backslashes)
+#   thecommand\(\>\|[0-9_]\)
+#        (command followed by end of word or [0-9_])
+#  /\1anycommand\4/g
+#        (there is three \( in the expression preceding thecommand)
+# The trick to add \> in the beginning of the expression is to be able
+# to process expression similar as \d\d or \d?\d where ? is any char
+# Line 5
+# \(.*\) anything that is a command not as in Line 4,
+# \(.*\\[a-zA-Z]\+\) to be replaced by  a command finishing in the form \blabla, 
+# considered as thecommand in the othercommand;thecommand line
+# the sed instruction to treat thecommand is the following instruction
+# s/\(\(^\|[^\]\|\>\)\(\\\\\)*\)
+#        (begining or other than \ or end of word, even number of backslashes)
+#   thecommand\([a-zA-Z]\)
+#        (command followed by a letter)
+#  /\1anycommand \4/g
+#        (there is three \( in the expression preceding thecommand)
+# followed by the same expression without the condition \([a-zA-Z]\) after
+# thecommand, and with a space and \4 after anycommand
+# Line 6
+# Remaining cases, same as the second part of line 5
+#
+# Remark: Lines 2 and 3 seem to be a particular case of lines 5 and 6,
+# but they give more easy expressions
+#    -e 's/^\([^\]);\(.*\\[a-zA-Z]\+\)$/s\/\1\\([a-zA-Z]\\)\/\2 \\1\/g\ns\/\1\/\2\/g/g'\
+#    -e 's/^\([^\]);\(.*\)$/s\/\1\/\2\/g/g'\
+#
+# In one line, it becomes:
+
+sed -e '1i\#!/bin/sed -f' -e '1d' -e 's/\\/\\\\/g'\
+    -e 's/^\([^\]\);\(.*\\[a-zA-Z]\+\)$/s\/\1\\([a-zA-Z]\\)\/\2 \\1\/g\ns\/\1\/\2\/g/g'\
+    -e 's/^\([^\]\);\(.*\)$/s\/\1\/\2\/g/g'\
+    -e 's/^\(.*\\[a-zA-Z]\+\);\(.*\)$/s\/\\(\\(^\\|[^\\]\\|\\>\\)\\(\\\\\\\\\\)*\\)\1\\(\\>\\|[0-9_]\\)\/\\1\2\\4\/g/g'\
+    -e 's/^\(.*\);\(.*\\[a-zA-Z]\+\)$/s\/\\(\\(^\\|[^\\]\\|\\>\\)\\(\\\\\\\\\\)*\\)\1\\([a-zA-Z]\\)\/\\1\2 \\4\/g\ns\/\\(\\(^\\|[^\\]\\|\\>\\)\\(\\\\\\\\\\)*\\)\1\/\\1\2\/g/g'\
+    -e 's/^\(.*\);\(.*\)$/s\/\\(\\(^\\|[^\\]\\|\\>\\)\\(\\\\\\\\\\)*\\)\\\1\/\\1\2\/g/g'\
+   latexconversion.conf > reduced2standard
+chmod +x reduced2standard
+
+# -------- Reverse conversion ----------
+# Basically, it is the command of the direct conversion (except lines 2 and 3)
+# exchanging \1 and \2.
+
+sed -e '1i\#!/bin/sed -f' -e '1d' -e 's/\\/\\\\/g'\
+    -e 's/^\(.*\);\(.*\\[a-zA-Z]\+\)$/s\/\\(\\(^\\|[^\\]\\|\\>\\)\\(\\\\\\\\\\)*\\)\2\\(\\>\\|[0-9_]\\)\/\\1\1\\4\/g/g'\
+    -e 's/^\(.*\\[a-zA-Z]\+\);\(.*\)$/s\/\\(\\(^\\|[^\\]\\|\\>\\)\\(\\\\\\\\\\)*\\)\2\\([a-zA-Z]\\)\/\\1\1 \\4\/g\ns\/\\(\\(^\\|[^\\]\\|\\>\\)\\(\\\\\\\\\\)*\\)\2\/\\1\1\/g/g'\
+    -e 's/^\(.*\);\(.*\)$/s\/\\(\\(^\\|[^\\]\\|\\>\\)\\(\\\\\\\\\\)*\\)\2\/\\1\1\/g/g'\
+   latexconversion.conf > standard2reduced
+chmod +x standard2reduced
+
+
+# Known bugs
+#
+# Things in verbatim environment
+#
+# Features missing
+#
+# Double replacement in reverse mode : if we want to replace \| and \Vert by ‖,
+# this is not clean what should be taken in direct mode
+# not involutive: σs → \sigma s → σ s, but this is not so important.
+#
+# Sometimes reverse conversion does not compile,
+# e.g. \widehatα but \widehat\alpha does,
+# or \frac1κ does not compile, whereas \frac1\kappa does.
+# In general, whenever the unicode character is an argument of a function,
+# it is necessary to put it into braces.
+# This is really hard to do without a list of all commands with arguments,
+# So we do not consider it as a bug.
+# Same thing for direct conversion, for example \frac\Id3 will compile
+# whereas \frac\mathrm{Id}3 will not.
