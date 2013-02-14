@@ -153,3 +153,7 @@ chmod +x standard2reduced
 # So we do not consider it as a bug.
 # Same thing for direct conversion, for example \frac\Id3 will compile
 # whereas \frac\mathrm{Id}3 will not.
+#
+# ∈ℝ → \in\mathbb{R} → \inℝ
+# ⩽ε → \leqslant\varepsilon → \leqslantε
+#
