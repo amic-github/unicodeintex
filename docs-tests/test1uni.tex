@@ -1,0 +1,79 @@
+\documentclass[a4paper,12pt]{article}
+
+
+ \usepackage[utf8]{inputenc}
+ \usepackage[T1]{fontenc}
+ \usepackage{textcomp}
+ \usepackage[normalem]{ulem}
+ \usepackage[francais]{babel} 
+ \usepackage{amsmath}
+ \usepackage{amssymb}
+ \usepackage{unicodeintex}
+ \usepackage{amsthm}
+ \usepackage{vmargin} 
+ \usepackage{graphicx}
+ \usepackage{color}
+ \usepackage{epsfig}
+ \usepackage[only,llbracket,rrbracket]{stmaryrd}
+% \usepackage[backref]{hyperref}
+ \usepackage{hyperref}
+
+\newtheorem{remark}{Remark}[section]
+\newtheorem{deft}{Definition}[section]
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lemma}{Lemma}
+
+\title{Unicode $⇔$ \LaTeX\ conversion test}
+\author{Amic Frouvelle\thanks{Geek Institute \href{mailto:amic.frouvelle@math.univ-toulouse.fr}{amic.frouvelle@math.univ-toulouse.fr}}
+\and 
+Sébastien Motsch\thanks{Geek Institute \href{mailto:sebastock@gmail.com}{sebastock@gmail.com}}} 
+\date{}
+
+\begin{document}
+\maketitle
+ 
+\begin{abstract}
+
+Mega conversion of the killing death
+
+\end{abstract}
+
+
+\section{Conflicts}
+
+$⩽$ for \verb?\leqslant? and  $≤$ for \verb?\leq?
+
+We do not have the same \verb(\cdot(
+
+$\perp$ not clear: U22A5 (downtack) or U27C2 (perpendicular) ?
+$\Vert$ $\|$ not clear: U2225 (parallel to) or U2016 (double vertical line)
+
+$Σ$ $\sum$ for \verb?\Sigma? or \verb?\sum? (same for product and pi)
+
+\section{Test cases}
+\noindent Les blabla blabla blabla blabla blabla blabla blabla blabla \og guillemets \fg{} français.\\
+Les blabla blabla blabla blabla blabla blabla blabla blabla « guillemets » français.\\ 
+
+$σ_1$  and  $σn$
+
+test  and $\left⟨\right⟩$ 
+$‖\dot{α}\overline{ρ}  c \bar{ρ}‖$
+
+$a\dots b \frac2\kappa~$ pouet \eqref{pouet}
+
+blabla \ref{hehe} and \cite{hoho} $oula$ et  $oula$
+
+ouet
+
+\section{Known bugs}
+
+Reverse translation from \LaTeX\ to unicode will fail if a command is inside a \verb!\verb?...?! environment.
+
+$\mapsto$ is a bug when viewing the dvi from evince
+
+\bibliographystyle{plain}
+\bibliography{../biblio}
+
+
+\end{document}

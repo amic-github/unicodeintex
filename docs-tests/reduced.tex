@@ -1,0 +1,81 @@
+\documentclass[a4paper,12pt]{article}
+
+
+ \usepackage[utf8]{inputenc}
+ \usepackage[T1]{fontenc}
+ \usepackage{textcomp}
+ \usepackage[normalem]{ulem}
+ \usepackage{amsmath}
+ \usepackage{amssymb}
+ \usepackage{amsthm}
+ \usepackage{vmargin} 
+ \usepackage{graphicx}
+ \usepackage{color}
+ \usepackage{epsfig}
+ \usepackage[only,llbracket,rrbracket]{stmaryrd}
+% \usepackage[backref]{hyperref}
+ \usepackage{hyperref}
+
+\newtheorem{remark}{Remark}[section]
+\newtheorem{deft}{Definition}[section]
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lemma}{Lemma}
+
+\title{Unicode $⇔$ \LaTeX\ conversion test}
+\author{Amic Frouvelle\thanks{Geek Institute \href{mailto:amic.frouvelle@math.univ-toulouse.fr}{amic.frouvelle@math.univ-toulouse.fr}}
+\and 
+Sébastien Motsch\thanks{Geek Institute \href{mailto:sebastock@gmail.com}{sebastock@gmail.com}}} 
+\date{}
+
+\usepackage{../commandes-private}
+
+\begin{document}
+\maketitle
+ 
+\begin{abstract}
+
+Mega conversion of the killing death
+
+\end{abstract}
+
+
+\section{Conflicts}
+
+$⩽$ for \verb?⩽? and  $≤$ for \verb?≤?
+
+We do not have the same \verb(·(
+
+$⟂$ not clear: U22A5 (downtack) or U27C2 (perpendicular)
+
+$Σ$ $\sum$ for \verb?Σ? or \verb?\sum? (same for product and pi)
+
+\section{Test cases}
+
+$σ_1$  and  $σ n$
+
+test \\d and $\frac\d{\d t}$ 
+
+$‖a‖$
+
+$a… b$
+
+\begin{thm}
+
+\begin{equation}
+pouet pouet \text{ tagada } \d t \Id pouet {\rm Id} pouet \mbox{ haha }
+\end{equation}
+
+\end{thm}
+\begin{equation}
+pouet pouet \text{ tagada } \d t \Id pouet {\rm Id} pouet ↦ \mbox{ haha }
+\end{equation}
+pouet
+
+\section{Known bugs}
+
+Reverse translation from \LaTeX\ to unicode will fail if a command is inside a \verb!\verb?...?! environment.
+
+$↦$ is a bug when viewing the dvi from evince
+
+\end{document}

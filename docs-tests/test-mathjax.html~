@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Conversion tests Unicode-LaTeX</title>
+    <meta charset="utf-8" />
+    
+
+    <!-- Using MathJax, with the delimiters $ -->
+    <!-- Conflict with pygments for the .mo and .mi colors --> 
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+      "HTML-CSS": {
+      styles: {
+      ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+      },
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']],processEscapes: true}
+      });
+    </script>
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+  </head>
+
+  <body id="index" class="home">
+      
+    
+    <h1>Tests of Conversion between Unicode and $\LaTeX$</h1>
+
+    <h2> Greek letters </h2>
+
+    <p> Small : $αβγδεζηθικλμνξπρστυφχψω$ </p> 
+    <p> Capitals : $ΓΔΘΛΞΠΣΦΨΩ$ </p>
+    <p> Variants : $ςϑϒϕϖϰϵϱ$ </p>
+
+    <h2> Symbols</h2>
+
+    <p> Useful symbols : $†‡ℓ∂∅∇∫∞$ </p>
+
+
+    <p> Double-struck : $ℂℍℕℙℚℝℤ𝔼𝕂𝕊𝕋𝕌𝟙$, \mathbbm{1} is not recognized by MathJax. </p>
+
+    <p> Quantifiers : $∀∃∄$ </p>
+
+    <p> Relations : $∈∉∋∌$, $⇐⇒⇔$, $≥≪≫⩽⩾$
+
+$
+      ≠;\neq
+≈;\approx
+≡;\equiv
+≢;\nequiv
+⟂;\perp
+
+      
+⊂;\subset
+⊃;\supset
+
+∩;\cap
+∪;\cup
+
+∧;\wedge
+∨;\vee
+
+×;\times
+÷;\div
+
+√;\sqrt
+
+⊕;\oplus
+⊗;\otimes
+⊛;\circledast
+⨁;\bigoplus
+⨂;\bigotimes
+
+∘;\circ
+·;\cdot
+$
+</p>
+
+    <p> Modifiers
+$
+¬;\neg
+±;\pm
+∓;\mp
+$
+</p>
+
+    <p> Arrows
+$
+←;\leftarrow
+↑;\uparrow
+→;\to
+↓;\downarrow
+↦;\mapsto
+$
+      
+</p>
+
+    <p> Delimiters
+$
+⟦;\llbracket
+⟧;\rrbracket
+‖;\|
+⟨;\langle
+⟩;\rangle
+$
+      
+</p>
+
+    <p> Dots
+$
+…;\dots
+⋮;\vdots
+⋯;\cdots
+⋰;\iddots
+⋱;\ddots
+$
+      
+</p>
+
+    <p> Typography (french)
+$
+«;\og
+»;\fg{}
+$
+
+    
+    
+  </body>
+</html>
