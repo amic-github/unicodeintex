@@ -1,33 +1,20 @@
 \documentclass[a4paper,12pt]{article}
 
-
  \usepackage[utf8]{inputenc}
  \usepackage[T1]{fontenc}
- \usepackage{textcomp}
- \usepackage[normalem]{ulem}
- \usepackage[francais]{babel} 
+% \usepackage{textcomp}
+ \usepackage[french,english]{babel} 
  \usepackage{amsmath}
  \usepackage{amssymb}
  \usepackage{unicodeintex}
- \usepackage{amsthm}
- \usepackage{vmargin} 
- \usepackage{graphicx}
- \usepackage{color}
- \usepackage{epsfig}
  \usepackage[only,llbracket,rrbracket]{stmaryrd}
-% \usepackage[backref]{hyperref}
- \usepackage{hyperref}
 
-\newtheorem{remark}{Remark}[section]
-\newtheorem{deft}{Definition}[section]
-\newtheorem{thm}{Theorem}
-\newtheorem{prop}{Proposition}[section]
-\newtheorem{lemma}{Lemma}
+\frenchbsetup{og=«,fg=»}
 
-\title{Unicode $⇔$ \LaTeX\ conversion test}
-\author{Amic Frouvelle\thanks{Geek Institute \href{mailto:amic.frouvelle@math.univ-toulouse.fr}{amic.frouvelle@math.univ-toulouse.fr}}
+\title{Unicode $⇔$ \LaTeX{} conversion test}
+\author{Amic Frouvelle\thanks{Geek Institute \texttt{amic@ceremade.dauphine.fr}}
 \and 
-Sébastien Motsch\thanks{Geek Institute \href{mailto:sebastock@gmail.com}{sebastock@gmail.com}}} 
+Sébastien Motsch\thanks{Geek Institute \texttt{sebastock@gmail.com}}} 
 \date{}
 
 \begin{document}
@@ -35,10 +22,17 @@ Sébastien Motsch\thanks{Geek Institute \href{mailto:sebastock@gmail.com}{sebast
  
 \begin{abstract}
 
-Mega conversion of the killing death
+Conversion between Unicode characters and \LaTeX{} commands.
+Should work to the best extent with the support provided by MathJax, and correspond to the characters produced in the pdf file.
 
 \end{abstract}
 
+\section{Presentation}
+We start with a configuration file giving the relations between Unicode characters and \LaTeX{} commands.
+
+The generation program provides a package unicodeintex.sty such that using \verb?\usepackage{unicodeintex}? allows to use the Unicode characters in the~\verb?.tex? file instead of the commands.
+
+The scripts uni2tex and tex2uni are tools to do the substitution for people not supporting Unicode, or not having the package unicodeintex…
 
 \section{Conflicts}
 
@@ -52,13 +46,15 @@ $\Vert$ $\|$ not clear: U2225 (parallel to) or U2016 (double vertical line)
 $Σ$ $\sum$ for \verb?\Sigma? or \verb?\sum? (same for product and pi)
 
 \section{Test cases}
-\noindent Les blabla blabla blabla blabla blabla blabla blabla blabla \og guillemets \fg{} français.\\
-Les blabla blabla blabla blabla blabla blabla blabla blabla « guillemets » français.\\ 
+\begin{otherlanguage}{french}
+\noindent \og guillemets \fg{} français.\\
+« guillemets » français.\\ 
+\end{otherlanguage}
 
 $σ_1$  and  $σn$
 
 test  and $\left⟨\right⟩$ 
-$‖\dot{α}\overline{ρ}  c \bar{ρ}‖$
+$∥\dot{α}\overline{ρ}  c \bar{ρ}∥$
 
 $a\dots b \frac2\kappa~$ pouet \eqref{pouet}
 
@@ -67,6 +63,13 @@ blabla \ref{hehe} and \cite{hoho} $oula$ et  $oula$
 ouet
 
 \section{Known bugs}
+
+\begin{otherlanguage}{french}
+\ \og{} guillemets \fg{} français.\\
+«guillemets» français.\\ 
+\end{otherlanguage}
+
+
 
 Reverse translation from \LaTeX\ to unicode will fail if a command is inside a \verb!\verb?...?! environment.
 
